@@ -5,6 +5,7 @@ import cookieparser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
+import router from "./router/index.js";
 
 // Initialize APP
 const app = express();
@@ -27,7 +28,7 @@ server.listen(8080, ()=>{
 });
 
 // mongodb+srv://<username>:<password>@<host_url>:><port>?options...
-const MONGO_URL = "mongodb://admin:password@localhost:27017?retryWrites=true";
+const MONGO_URL = "mongodb://admin:password@localhost:27017";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL).then(() => {
@@ -54,3 +55,8 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 // For container termination
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+
+// ------------
+//  app uses the router
+
+app.use("/", router());
